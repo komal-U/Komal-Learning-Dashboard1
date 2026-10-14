@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Individual Learning Dashboard | Komal Umak</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f3f6fb;color:#243247;line-height:1.6}
+header{background:linear-gradient(135deg,#102f55,#2475b9);color:white;text-align:center;padding:35px 15px}
+header h1{font-size:clamp(24px,4vw,35px);margin-bottom:8px}
+header p{font-size:15px}
+.container{max-width:1150px;margin:28px auto;padding:0 16px}
+.summary{display:flex;justify-content:center;margin-bottom:25px}
+.stat{background:white;border-radius:14px;padding:18px 35px;min-width:240px;text-align:center;box-shadow:0 4px 15px #0000000d}
+.stat h3{font-size:14px;color:#627187}
+.stat p{color:#1765a5;font-size:32px;font-weight:bold}
+.toolbar{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+input,select{border:1px solid #d5deea;border-radius:9px;padding:12px;background:white;font-size:14px}
+input{flex:1;min-width:200px}
+select{min-width:155px}
+.section-title{color:#123b68;margin:25px 0 17px;font-size:23px}
+.entries{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:20px}
+.card{background:white;border-radius:14px;padding:21px;border-top:5px solid #2475b9;box-shadow:0 4px 15px #0000000d;transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 7px 20px #0000001a}
+.card h3{color:#1765a5;font-size:18px;margin-bottom:5px}
+.place{color:#64748b;font-size:13px;margin-bottom:15px}
+.badge{display:inline-block;background:#e8f3ff;color:#1765a5;border-radius:20px;padding:4px 11px;font-size:12px;margin-bottom:10px}
+.label{font-size:14px;font-weight:bold;color:#174c7b;margin-top:14px;margin-bottom:4px}
+.card p{font-size:14px;overflow-wrap:anywhere}
+.challenge{background:#fff5e8;border-radius:8px;padding:10px}
+.no-results{grid-column:1/-1;background:white;padding:30px;text-align:center;border-radius:12px;color:#64748b}
+footer{text-align:center;padding:30px 15px;color:#64748b;font-size:13px}
+@media(max-width:600px){.toolbar{flex-direction:column}input,select{width:100%}}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Individual Learning Dashboard</h1>
+    <p>Komal Umak | Gandhi Fellow | Batch 19</p>
+    <p>Health System Immersion & Daily Learning | Patna</p>
+</header>
+
+<main class="container">
+
+    <section class="summary">
+        <div class="stat">
+            <h3>Total Days in My Learning Journey</h3>
+            <p id="totalDays">33</p>
+        </div>
+    </section>
+
+    <div class="toolbar">
+        <input type="search" id="searchInput"
+        placeholder="Search date, activity, learning or place...">
+
+        <select id="monthFilter">
+            <option value="all">All Months</option>
+            <option value="2026-09">September 2026</option>
+            <option value="2026-10">October 2026</option>
+        </select>
+
+        <select id="sortFilter">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+        </select>
+    </div>
+
+    <h2 class="section-title">My Daily Learning Journey</h2>
+    <section id="entriesContainer" class="entries"></section>
+
+</main>
+
+<footer>
+    My Learning Journey | Gandhi Fellowship | 2026
+</footer>
+
+<script>
+const entries = {
+"2026-09-11":{
+place:"Guru Gobind Singh Hospital (GGSH), Patna",
+activity:"Supported TAS-1 activities and observed hospital and school-related discussions.",
+learning:"Learned about coordination between healthcare teams and schools and the importance of communication during field activities.",
+takeaway:"Effective coordination and communication help field activities run smoothly.",
+challenges:"Coordination and stakeholder support required attention."
+},
+"2026-09-12":{
+place:"Details to be added",
+activity:"Add the actual field visit or activity from your ILD.",
+learning:"Add the learning from your experience.",
+takeaway:"Add the key takeaway from your experience.",
+challenges:""
+},
+"2026-09-13":{
+place:"Patna Office",
+activity:"Participated in an office meeting involving the new PO-CD team.",
+learning:"Learned about team coordination and understanding roles and responsibilities.",
+takeaway:"Clear communication and role clarity strengthen teamwork.",
+challenges:""
+},
+"2026-09-14":{
+place:"Details to be added",
+activity:"Add the actual field visit or activity from your ILD.",
+learning:"Add the learning from your experience.",
+takeaway:"Add the key takeaway from your experience.",
+challenges:""
+},
+"2026-09-15":{
+place:"GGSH, Patna",
+activity:"Supported TAS-1 activities and participated in awareness activities on Dengue, Malaria, Filaria, and Kala-azar.",
+learning:"Learned the importance of communicating information about vector-borne diseases and their prevention.",
+takeaway:"Awareness and preventive action are important for disease control.",
+challenges:"Coordination with stakeholders during field activities."
+},
+"2026-09-16":{
+place:"AAM Kurkuri",
+activity:"Visited the AAM to collect the UDID number of a person affected by Filaria.",
+learning:"Learned about patient documentation and the role of health facilities in supporting disability certification.",
+takeaway:"Accurate patient documentation can support access to appropriate services.",
+challenges:""
+},
+"2026-09-17":{
+place:"Details to be added",
+activity:"Add the actual field visit or activity from your ILD.",
+learning:"Add the learning from your experience.",
+takeaway:"Add the key takeaway from your experience.",
+challenges:""
+},
+"2026-09-18":{
+place:"Field and office learning",
+activity:"Participated in discussions on NBS and identified gaps with the PL.",
+learning:"Learned to identify implementation gaps and discuss improvements with team members.",
+takeaway:"Regular review and collaborative problem-solving improve programme implementation.",
+challenges:""
+},
+"2026-09-19":{
+place:"Details to be added",
+activity:"Add the actual field visit or activity from your ILD.",
+learning:"Add the learning from your experience.",
+takeaway:"Add the key takeaway from your experience.",
+challenges:""
+},
+"2026-09-20":{
+place:"GGSH, Patna",
+activity:"Supported TAS-1 activities with the team.",
+learning:"Strengthened understanding of field coordination and teamwork during TAS-1 activities.",
+takeaway:"Teamwork and consistent coordination support effective field implementation.",
+challenges:""
+},
+"2026-09-21":{
+place:"GGSH, Patna",
+activity:"Discussed stakeholder coordination and licensing with the PL.",
+learning:"Learned about stakeholder engagement and administrative processes.",
+takeaway:"Understanding responsibilities and processes helps improve coordination.",
+challenges:""
+},
+"2026-09-22":{
+place:"GGSH, Patna",
+activity:"Supported TAS-1 activities with the team and received guidance from the state team.",
+learning:"Learned from the state team's guidance and strengthened understanding of TAS-1 implementation.",
+takeaway:"Feedback and guidance help improve fieldwork and practical understanding.",
+challenges:""
+},
+"2026-09-23":{
+place:"Self-learning",
+activity:"Revised communicable diseases.",
+learning:"Revised concepts related to communicable diseases, their transmission, prevention, and control.",
+takeaway:"Regular revision strengthens technical knowledge and confidence.",
+challenges:""
+},
+"2026-09-24":{
+place:"Patna Office",
+activity:"Attended a meeting on the IHIP portal and monthly planning.",
+learning:"Learned about the IHIP portal and the importance of planning and reviewing programme activities.",
+takeaway:"Accurate information and structured planning support better monitoring.",
+challenges:""
+},
+"2026-09-25":{
+place:"Patna Office",
+activity:"Participated in monthly planning activities.",
+learning:"Learned the importance of setting priorities, reviewing tasks, and coordinating responsibilities.",
+takeaway:"Planning helps organize work and use time effectively.",
+challenges:""
+},
+"2026-09-26":{
+place:"Details to be added",
+activity:"Add the actual field visit or activity from your ILD.",
+learning:"Add the learning from your experience.",
+takeaway:"Add the key takeaway from your experience.",
+challenges:""
+},
+"2026-09-27":{
+place:"Details to be added",
+activity:"Add the actual field visit or activity from your ILD.",
+learning:"Add the learning from your experience.",
+takeaway:"Add the key takeaway from your experience.",
+challenges:""
+},
+"2026-09-28":{
+place:"Digha",
+activity:"Participated in the Night Blood Survey (NBS) and observed community participation during testing.",
+learning:"Observed how community participation supports public health activities.",
+takeaway:"Community trust and participation are important for successful health interventions.",
+challenges:""
+},
+"2026-09-29":{
+place:"Digha",
+activity:"Participated in NBS with the state team and learned about lancet selection, community engagement, and door-to-door testing.",
+learning:"Gained practical understanding of testing procedures and community engagement during fieldwork.",
+takeaway:"Technical knowledge and respectful community interaction are essential for effective fieldwork.",
+challenges:""
+},
+"2026-09-30":{
+place:"Self-learning",
+activity:"Prepared the Health System Immersion (HSI) PowerPoint presentation.",
+learning:"Learned to organize field experiences and observations into a structured presentation.",
+takeaway:"Good documentation helps communicate field experiences clearly.",
+challenges:""
+},
+"2026-10-01":{
+place:"Self-learning",
+activity:"Continued preparing the HSI PowerPoint presentation.",
+learning:"Practised summarizing observations, organizing information, and presenting learning systematically.",
+takeaway:"Reflection and documentation help convert experiences into meaningful learning.",
+challenges:""
+},
+"2026-10-02":{
+place:"Bela Panchayat, Bihta Block",
+activity:"Attended the Special Gram Sabha. Discussions covered nine themes, especially Healthy Panchayat, institutional delivery, TB-Mukt Panchayat, Filaria, and disability certificates.",
+learning:"Learned how Panchayat-level discussions can bring health priorities and community needs into local planning.",
+takeaway:"Community participation and local leadership can support healthier Panchayats.",
+challenges:""
+},
+"2026-10-03":{
+place:"Malaria Office and AAM",
+activity:"Coordinated with the AAM team and communicated about support for upcoming NBS activities.",
+learning:"Learned about advance communication and coordination between programme teams and health facilities.",
+takeaway:"Timely communication helps stakeholders prepare for field activities.",
+challenges:""
+},
+"2026-10-04":{
+place:"Details to be added",
+activity:"Add the actual field visit or activity from your ILD.",
+learning:"Add the learning from your experience.",
+takeaway:"Add the key takeaway from your experience.",
+challenges:""
+},
+"2026-10-05":{
+place:"HSI learning and presentation",
+activity:"Consolidated HSI learning with fellows from Nawada, Nalanda, Gaya, Aurangabad, Patna, and Rohtas.",
+learning:"Learned from different fellows' experiences and strengthened confidence in sharing personal observations.",
+takeaway:"Sharing experiences with peers broadens perspectives and builds confidence.",
+challenges:""
+},
+"2026-10-06":{
+place:"HSI presentation",
+activity:"Presented district-level work related to Filaria and Kala-azar.",
+learning:"Practised communicating field experiences, programme activities, and observations in a structured manner.",
+takeaway:"Clear presentation helps others understand field-level work and learning.",
+challenges:""
+},
+"2026-10-07":{
+place:"Patna Review Meeting",
+activity:"Participated in the review meeting and learned about the UDID portal.",
+learning:"Improved understanding of the UDID portal and the importance of reviewing programme progress.",
+takeaway:"Review meetings and digital systems can support better coordination and service access.",
+challenges:""
+},
+"2026-10-08":{
+place:"Malaria Office",
+activity:"Attended IRS training for Senior Field Workers and Field Workers.",
+learning:"Gained exposure to IRS-related training and the importance of following appropriate procedures during vector-control activities.",
+takeaway:"Proper training and adherence to procedures are essential for effective vector control.",
+challenges:""
+},
+"2026-10-09":{
+place:"Phulwarisharif",
+activity:"Visited to collect RK39 test data and interacted with the M&E Officer, MOIC, and BCM.",
+learning:"Learned about programme data collection and coordination with health officials.",
+takeaway:"Accurate data and stakeholder coordination support programme monitoring.",
+challenges:""
+},
+"2026-10-10":{
+place:"Details to be added",
+activity:"Add the actual field visit or activity from your ILD.",
+learning:"Add the learning from your experience.",
+takeaway:"Add the key takeaway from your experience.",
+challenges:""
+},
+"2026-10-11":{
+place:"Details to be added",
+activity:"Add the actual field visit or activity from your ILD.",
+learning:"Add the learning from your experience.",
+takeaway:"Add the key takeaway from your experience.",
+challenges:""
+},
+"2026-10-12":{
+place:"Danapur",
+activity:"Visited for licensing coordination but reached around 2 PM and could not meet the intended stakeholders.",
+learning:"Learned that travel time, stakeholder availability, and appointment planning need to be considered before field visits.",
+takeaway:"Planning departure time and confirming stakeholder availability can make field visits more productive.",
+challenges:"Late arrival affected the opportunity to meet stakeholders."
+},
+"2026-10-13":{
+place:"DMO Office and NBS Training",
+activity:"Interacted with the DMO about the fellowship process and attended NBS training. When I expressed concern about my Hindi, the DMO encouraged me and said that my Hindi was good.",
+learning:"Learned the value of confidence, self-belief, and continued learning. Encouragement from others can help overcome self-doubt.",
+takeaway:"Self-awareness means recognizing insecurities without allowing them to limit our confidence or growth.",
+challenges:"Initially felt unsure about my Hindi-speaking ability, but the encouragement helped me feel more confident."
+}
+};
+
+function formatDate(dateString){
+    return new Date(dateString+"T12:00:00").toLocaleDateString("en-IN",{
+        day:"2-digit",month:"long",year:"numeric"
+    });
+}
+
+function escapeHTML(value){
+    return String(value||"").replace(/[&<>"']/g,c=>({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    })[c]);
+}
+
+function renderCard(date,item){
+    const challengeHTML=item.challenges
+        ? `<div class="label">Challenges</div><p class="challenge">${escapeHTML(item.challenges)}</p>`
+        : "";
+
+    return `
+    <article class="card">
+        <span class="badge">Daily Learning</span>
+        <h3>${formatDate(date)}</h3>
+        <div class="place">📍 ${escapeHTML(item.place)}</div>
+        <div class="label">Field Visit & Activity</div>
+        <p>${escapeHTML(item.activity)}</p>
+        <div class="label">Learning of the Day</div>
+        <p>${escapeHTML(item.learning)}</p>
+        <div class="label">Key Takeaway</div>
+        <p>${escapeHTML(item.takeaway)}</p>
+        ${challengeHTML}
+    </article>`;
+}
+
+function renderDashboard(){
+    const container=document.getElementById("entriesContainer");
+    const search=document.getElementById("searchInput").value.toLowerCase().trim();
+    const month=document.getElementById("monthFilter").value;
+    const sort=document.getElementById("sortFilter").value;
+
+    let dates=Object.keys(entries).filter(date=>{
+        if(month!=="all"&&!date.startsWith(month)) return false;
+        const item=entries[date];
+        const searchable=[
+            date,formatDate(date),item.place,item.activity,
+            item.learning,item.takeaway,item.challenges
+        ].join(" ").toLowerCase();
+        return searchable.includes(search);
+    });
+
+    dates.sort((a,b)=>sort==="newest"?b.localeCompare(a):a.localeCompare(b));
+
+    if(dates.length===0){
+        container.innerHTML='<div class="no-results">No matching dates found.</div>';
+        return;
+    }
+
+    container.innerHTML=dates.map(date=>renderCard(date,entries[date])).join("");
+}
+
+document.getElementById("searchInput").addEventListener("input",renderDashboard);
+document.getElementById("monthFilter").addEventListener("change",renderDashboard);
+document.getElementById("sortFilter").addEventListener("change",renderDashboard);
+
+renderDashboard();
+</script>
+
+</body>
+  </html>
